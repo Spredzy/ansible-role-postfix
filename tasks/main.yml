@@ -17,11 +17,9 @@
 - name: Include OS-specific variables
   include_vars: '{{ ansible_os_family }}.yml'
 
-# - name: Install the Postfix server package
-#   package: name={{ postfix_package_name }}
 
-- name: Include OS-specific actions
-  include: '{{ ansible_os_family }}.yml'
+- name: Install the Postfix server package
+  package: name={{ postfix_package_name }}
 
 
 # postfix_backend: mysql
@@ -30,7 +28,15 @@
   include: mysql.yml
 
 
-- name: Apply specified settings
+# configure master.cf
+#
+- name: Apply specified settings in master.cf
+  include: master_cf.yml
+
+
+# configure main.cf
+#
+- name: Apply specified settings in main.cf
   lineinfile:
     dest: '{{ postfix_conf_path }}/main.cf'
     line: '{{ item.key }} = {{ item.value }}'
