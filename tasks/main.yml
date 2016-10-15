@@ -19,7 +19,8 @@
 
 
 - name: Install the Postfix server package
-  package: name={{ postfix_package_name }}
+  package:
+    name: '{{ postfix_package_name }}'
 
 
 # postfix_backend: mysql
